@@ -1,7 +1,10 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import { ApolloProvider } from 'react-apollo'
+import { ThemeProvider } from 'styled-components'
 import { withApolloClient } from '../graphql'
+import Page from '../components/Page'
+import theme from '../theme'
 
 class MyApp extends App {
   render() {
@@ -10,7 +13,11 @@ class MyApp extends App {
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
+          <ThemeProvider theme={theme}>
+            <Page>
+              <Component {...pageProps} />
+            </Page>
+          </ThemeProvider>
         </ApolloProvider>
       </Container>
     )
