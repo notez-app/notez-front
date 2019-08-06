@@ -1,5 +1,8 @@
-const withTM = require('next-transpile-modules')
+const withPlugins = require('next-compose-plugins')
+const tm = require('next-transpile-modules')
 
-module.exports = withTM({
-  transpileModules: ['@notez/graphql'],
-})
+const { parsed: env } = require('dotenv').config()
+
+const plugins = [[tm, { transpileModules: ['@notez/graphql'] }]]
+
+module.exports = withPlugins(plugins, { env })

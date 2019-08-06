@@ -2,15 +2,14 @@ import { ApolloClient, InMemoryCache, HttpLink } from 'apollo-boost'
 import fetch from 'isomorphic-unfetch'
 import { isBrowser } from './isomorphic'
 
-const appolloClient = (initialState = {}, options = {}) => {
-  const {
-    uri = 'http://localhost:3000/graphql',
-    credentials = 'same-origin',
-  } = options
+const options = {
+  uri: '',
+}
 
+const appolloClient = ({ uri } = options, initialState = {}) => {
   const link = new HttpLink({
     uri,
-    credentials,
+    credentials: 'same-origin',
     fetch: !isBrowser() && fetch,
   })
 

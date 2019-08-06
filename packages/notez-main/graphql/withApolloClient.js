@@ -3,6 +3,10 @@ import Head from 'next/head'
 import { getDataFromTree } from 'react-apollo'
 import { createApolloClient } from '@notez/graphql'
 
+const options = {
+  uri: process.env.API_URL,
+}
+
 const withApolloClient = (App) => {
   class Apollo extends React.Component {
     static displayName = 'withApollo(App)'
@@ -17,7 +21,7 @@ const withApolloClient = (App) => {
 
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
-      const apollo = createApolloClient()
+      const apollo = createApolloClient(options)
 
       if (typeof window === 'undefined') {
         try {
@@ -53,7 +57,7 @@ const withApolloClient = (App) => {
 
     constructor(props) {
       super(props)
-      this.apolloClient = createApolloClient(props.apolloState)
+      this.apolloClient = createApolloClient(options, props.apolloState)
     }
 
     render() {
