@@ -1,22 +1,23 @@
 import React from 'react'
 import App, { Container } from 'next/app'
-import { ApolloProvider } from 'react-apollo'
+import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
-import { withApolloClient } from '../graphql'
-import Page from '../components/Page'
+import { withApollo } from '../lib'
+import { SiteLayout } from '../layouts'
 import theme from '../theme'
 
 class MyApp extends App {
   render() {
     const { Component, pageProps, apolloClient } = this.props
+    const { Layout = SiteLayout } = Component
 
     return (
       <Container>
         <ApolloProvider client={apolloClient}>
           <ThemeProvider theme={theme}>
-            <Page>
+            <Layout>
               <Component {...pageProps} />
-            </Page>
+            </Layout>
           </ThemeProvider>
         </ApolloProvider>
       </Container>
@@ -24,4 +25,4 @@ class MyApp extends App {
   }
 }
 
-export default withApolloClient(MyApp)
+export default withApollo(MyApp)

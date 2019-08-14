@@ -1,6 +1,7 @@
 const colors = {
   black: '#040402',
-  white: '#fffefc',
+  white: '#ffffff',
+  romance: '#fffefc',
   merlin: '#37352f',
   gray: '#999999',
   merino: '#f5efe4',

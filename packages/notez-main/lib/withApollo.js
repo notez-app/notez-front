@@ -1,15 +1,16 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Head from 'next/head'
-import { getDataFromTree } from 'react-apollo'
-import { createApolloClient } from '@notez/graphql'
+import { getDataFromTree } from '@apollo/react-ssr'
+import { createClient } from '@notez/graphql'
+import getDisplayName from './getDisplayName'
 
 const options = {
   uri: process.env.API_URL,
 }
 
-const withApolloClient = (App) => {
-  class Apollo extends React.Component {
-    static displayName = 'withApollo(App)'
+const withApollo = (App) => {
+  class WithApollo extends Component {
+    static displayName = `WithApollo(${getDisplayName(App)})`
 
     static async getInitialProps(ctx) {
       const { Component, router } = ctx
@@ -21,7 +22,7 @@ const withApolloClient = (App) => {
 
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
-      const apollo = createApolloClient(options)
+      const apollo = createClient(null, options)
 
       if (typeof window === 'undefined') {
         try {
@@ -57,7 +58,7 @@ const withApolloClient = (App) => {
 
     constructor(props) {
       super(props)
-      this.apolloClient = createApolloClient(options, props.apolloState)
+      this.apolloClient = createClient(props.apolloState, options)
     }
 
     render() {
@@ -65,7 +66,7 @@ const withApolloClient = (App) => {
     }
   }
 
-  return Apollo
+  return WithApollo
 }
 
-export default withApolloClient
+export default withApollo

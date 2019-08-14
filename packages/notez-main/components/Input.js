@@ -25,7 +25,7 @@ Input.defaultProps = {
   px: 3,
   border: 'merino',
   borderRadius: '4px',
-  bg: 'white',
+  bg: 'romance',
   color: 'black',
   mt: 1,
   mb: 3,

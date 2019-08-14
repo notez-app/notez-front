@@ -1,9 +1,7 @@
 import { Box, Flex, Text } from 'flokit'
-import Container from './Container'
-import Link from './Link'
-import Emoji from './Emoji'
+import { Container, Link, Emoji } from '../../components'
 
-const Footer = () => (
+const SiteFooter = () => (
   <Box as='footer'>
     <Container mt='5'>
       <Flex
@@ -37,4 +35,4 @@ const Footer = () => (
   </Box>
 )
 
-export default Footer
+export default SiteFooter
