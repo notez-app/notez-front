@@ -5,9 +5,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run start --stream",
+    "dev": "lerna run dev --stream",
     "build": "lerna run build --stream",
     "start": "lerna run start --stream",
+    "test": "lerna run test --stream",
     "format": "prettier --write packages/**/*.js"
   },
   "devDependencies": {
