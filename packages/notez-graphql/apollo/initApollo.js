@@ -2,9 +2,9 @@ import { ApolloClient, InMemoryCache } from 'apollo-boost'
 import { createHttpLink } from 'apollo-link-http'
 import { setContext } from 'apollo-link-context'
 import fetch from 'isomorphic-unfetch'
-import * as platform from './platform'
+import { environmentService } from '@notez/infra'
 
-if (platform.isServer()) {
+if (environmentService.isServer()) {
   global.fetch = fetch
 }
 
@@ -12,9 +12,12 @@ const options = {
   uri: 'http://localhost:3000',
 }
 
-const initApollo = (initialState = {}, { uri } = options) => {
-  const isServer = platform.isServer()
-  const isBrowser = platform.isBrowser()
+const initApollo = (
+  initialState = {},
+  { uri, getToken = () => '' } = options
+) => {
+  const isServer = environmentService.isServer()
+  const isBrowser = environmentService.isBrowser()
 
   const httpLink = createHttpLink({
     uri,
@@ -23,12 +26,12 @@ const initApollo = (initialState = {}, { uri } = options) => {
   })
 
   const authLink = setContext((_, { headers }) => {
-    const token = localStorage.getItem('token')
+    const token = getToken()
 
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : '',
+        Authorization: token ? `Bearer ${token}` : '',
       },
     }
   })

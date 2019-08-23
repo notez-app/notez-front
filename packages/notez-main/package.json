@@ -11,6 +11,7 @@
   "dependencies": {
     "@apollo/react-hooks": "^3.0.0",
     "@apollo/react-ssr": "^3.0.0",
+    "@notez/domain": "0.0.0",
     "@notez/graphql": "0.0.0",
     "apollo-boost": "^0.4.3",
     "apollo-client": "^2.6.3",

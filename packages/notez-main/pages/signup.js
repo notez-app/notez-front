@@ -1,27 +1,15 @@
 import { useState } from 'react'
-import Router from 'next/router'
 import { useApolloClient, useMutation } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
+import { User } from '@notez/domain'
+import { cookieService } from '@notez/infra'
+import { CREATE_USER } from '@notez/graphql'
 import { Box, Flex, Heading, Text } from 'flokit'
 import { Button, Container, Input, Label } from '../components'
-
-const User = () => ({
-  name: '',
-  email: '',
-  password: '',
-})
-
-const CREATE_USER = gql`
-  mutation CreateUser($name: String!, $email: String!, $password: String!) {
-    createUser(name: $name, email: $email, password: $password) {
-      token
-    }
-  }
-`
+import { checkCurrentUser, redirect } from '../lib'
 
 const SignUp = () => {
   const client = useApolloClient()
-  const [user, setUser] = useState(User())
+  const [user, setUser] = useState(User.create())
 
   const onChange = (event) => {
     event.persist()
@@ -41,10 +29,11 @@ const SignUp = () => {
   }
 
   const onCompleted = (data) => {
-    setUser(User())
-    localStorage.setItem('token', data.createUser.token)
+    setUser(User.create())
+
+    cookieService.set('token', data.createUser.token)
     client.cache.reset().then(() => {
-      Router.replace('/workspace')
+      redirect('/workspace')
     })
   }
 
@@ -104,6 +93,16 @@ const SignUp = () => {
       </Container>
     </Box>
   )
+}
+
+SignUp.getInitialProps = async (ctx) => {
+  const { currentUser } = await checkCurrentUser(ctx.apolloClient)
+
+  if (currentUser) {
+    redirect(ctx, '/workspace')
+  }
+
+  return {}
 }
 
 export default SignUp

@@ -1,28 +1,50 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Head from 'next/head'
 import { getDataFromTree } from '@apollo/react-ssr'
+import { cookieService } from '@notez/infra'
 import { createClient } from '@notez/graphql'
 import getDisplayName from './getDisplayName'
 
-const options = {
-  uri: process.env.API_URL,
-}
+const uri = process.env.API_URL
 
 const withApollo = (App) => {
   class WithApollo extends Component {
     static displayName = `WithApollo(${getDisplayName(App)})`
 
+    static defaultProps = {
+      apolloState: {},
+    }
+
+    static propTypes = {
+      apolloState: PropTypes.object,
+    }
+
     static async getInitialProps(ctx) {
-      const { Component, router } = ctx
+      const {
+        Component,
+        router,
+        ctx: { req, res },
+      } = ctx
+
+      const cookies = req ? req.headers.cookie || '' : document.cookie
+
+      const getToken = () => cookieService.get('token', cookies)
+
+      const apollo = createClient(null, { uri, getToken })
+
+      ctx.ctx.apolloClient = apollo
 
       let appProps = {}
       if (App.getInitialProps) {
         appProps = await App.getInitialProps(ctx)
       }
 
-      // Run all GraphQL queries in the component tree
-      // and extract the resulting data
-      const apollo = createClient(null, options)
+      if (res && res.finished) {
+        // When redirecting, the response is finished.
+        // No point in continuing to render
+        return {}
+      }
 
       if (typeof window === 'undefined') {
         try {
@@ -58,7 +80,10 @@ const withApollo = (App) => {
 
     constructor(props) {
       super(props)
-      this.apolloClient = createClient(props.apolloState, options)
+      this.apolloClient = createClient(props.apolloState, {
+        uri,
+        getToken: () => cookieService.get('token'),
+      })
     }
 
     render() {

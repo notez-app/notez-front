@@ -1,33 +1,22 @@
 import { useState } from 'react'
-import Router from 'next/router'
 import { useApolloClient, useMutation } from '@apollo/react-hooks'
-import { gql } from 'apollo-boost'
+import { User } from '@notez/domain'
+import { cookieService } from '@notez/infra'
+import { LOGIN_USER } from '@notez/graphql'
 import { Box, Flex, Heading, Text } from 'flokit'
 import { Button, Container, Input, Label } from '../components'
-
-const Credentials = () => ({
-  email: '',
-  password: '',
-})
-
-const LOGIN_USER = gql`
-  mutation LoginUser($email: String!, $password: String!) {
-    loginUser(email: $email, password: $password) {
-      token
-    }
-  }
-`
+import { checkCurrentUser, redirect } from '../lib'
 
 const Login = () => {
   const client = useApolloClient()
-  const [credentials, setCredentials] = useState(Credentials())
+  const [user, setUser] = useState(User.create())
 
   const onChange = (event) => {
     event.persist()
     const { name, value } = event.target
 
-    setCredentials((credentials) => ({
-      ...credentials,
+    setUser((user) => ({
+      ...user,
       [name]: value,
     }))
   }
@@ -36,14 +25,15 @@ const Login = () => {
     event.preventDefault()
     event.stopPropagation()
 
-    loginUser({ variables: credentials })
+    loginUser({ variables: user })
   }
 
   const onCompleted = (data) => {
-    setCredentials(Credentials())
-    localStorage.setItem('token', data.loginUser.token)
+    setUser(User.create())
+
+    cookieService.set('token', data.loginUser.token)
     client.cache.reset().then(() => {
-      Router.replace('/workspace')
+      redirect('/workspace')
     })
   }
 
@@ -66,7 +56,7 @@ const Login = () => {
           <Label>Email</Label>
           <Input
             name='email'
-            value={credentials.email}
+            value={user.email}
             placeholder='foo@bar.com'
             type='email'
             onChange={onChange}
@@ -76,7 +66,7 @@ const Login = () => {
           <Input
             mb='3'
             name='password'
-            value={credentials.password}
+            value={user.password}
             placeholder='foobar'
             type='password'
             onChange={onChange}
@@ -95,6 +85,16 @@ const Login = () => {
       </Container>
     </Box>
   )
+}
+
+Login.getInitialProps = async (ctx) => {
+  const { currentUser } = await checkCurrentUser(ctx.apolloClient)
+
+  if (currentUser) {
+    redirect(ctx, '/workspace')
+  }
+
+  return {}
 }
 
 export default Login

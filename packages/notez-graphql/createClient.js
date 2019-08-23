@@ -1,10 +1,10 @@
-import initApollo from './initApollo'
-import * as platform from './platform'
+import { environmentService } from '@notez/infra'
+import { initApollo } from './apollo'
 
 let apolloClient = null
 
 const createClient = (initialState, options) => {
-  if (platform.isServer()) {
+  if (environmentService.isServer()) {
     return initApollo(initialState, options)
   }
 

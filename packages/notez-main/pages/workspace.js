@@ -1,22 +1,9 @@
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
 import { Box, Flex, Heading, Text } from 'flokit'
-import { Editable, Emoji } from '../components'
+import { Block, Editable, Emoji } from '../components'
 import { WorkspaceLayout } from '../layouts'
-
-const types = {
-  Text,
-}
-
-const Block = ({ type, children }) => {
-  const BlockType = types[type]
-
-  return (
-    <BlockType as='div' width={1} mt='2px' mb='1px' lineHeight='24px'>
-      <Editable>{children}</Editable>
-    </BlockType>
-  )
-}
+import { checkCurrentUser } from '../lib'
 
 const DEFAULT_WORKSPACE = gql`
   {
@@ -36,11 +23,14 @@ const DEFAULT_WORKSPACE = gql`
   }
 `
 
-const Workspace = () => {
+const Workspace = ({ currentUser }) => {
+  console.log({ currentUser })
+
   const { loading, error, data } = useQuery(DEFAULT_WORKSPACE)
 
   if (loading) {
     return (
+      // Exibir um spinner mais bonitinho?
       <Text fontSize='14px' color='gray'>
         Loading...
       </Text>
@@ -54,6 +44,7 @@ const Workspace = () => {
       <Box as='header' mt='5' mb='3'>
         {page.icon && <Emoji symbol={page.icon} label='car' fontSize='10' />}
 
+        {/* Usar o component BLock como `type` Heading? */}
         <Heading as='div' fontSize='8' fontWeight='5'>
           <Editable>{page.name}</Editable>
         </Heading>
@@ -77,5 +68,19 @@ const Workspace = () => {
 }
 
 Workspace.Layout = WorkspaceLayout
+
+Workspace.getInitialProps = async (ctx) => {
+  const { currentUser } = await checkCurrentUser(ctx.apolloClient)
+
+  if (!currentUser) {
+    // Mandar pra alguma pagina mais util que a home?
+    // Talvez alguma pagina especifica pra unificar login e signup como o Notion faz?
+    redirect(ctx, '/')
+  }
+
+  return {
+    currentUser,
+  }
+}
 
 export default Workspace
