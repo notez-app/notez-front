@@ -1,12 +1,17 @@
+import styled from 'styled-components'
 import posed from 'react-pose'
 import { Box } from 'flokit'
 
-const Sidebar = posed(Box)({
-  open: { x: '0%' },
-  closed: { x: '-101%' },
-})
+const Sidebar = styled(
+  posed(Box)({
+    open: { x: '0' },
+    closed: { x: '-101%' },
+  })
+)`
+  transform: translateX(-100%);
+`
 
-const WorkspaceSidebar = ({ isOpen, onOpen, onClose }) => (
+const WorkspaceSidebar = ({ isOpen = false, onOpen, onClose }) => (
   <Box
     position='fixed'
     top='45px'
