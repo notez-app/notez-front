@@ -1,5 +1,5 @@
 import React from 'react'
-import App, { Container } from 'next/app'
+import App from 'next/app'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { ThemeProvider } from 'styled-components'
 import { withApollo } from '../lib'
@@ -12,15 +12,13 @@ class NotezApp extends App {
     const { Layout = SiteLayout } = Component
 
     return (
-      <Container>
-        <ApolloProvider client={apolloClient}>
-          <ThemeProvider theme={theme}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </ThemeProvider>
-        </ApolloProvider>
-      </Container>
+      <ApolloProvider client={apolloClient}>
+        <ThemeProvider theme={theme}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </ThemeProvider>
+      </ApolloProvider>
     )
   }
 }
