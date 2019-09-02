@@ -4,7 +4,7 @@ import { User } from '@notez/domain'
 import { cookieService } from '@notez/infra'
 import { LOGIN_USER } from '@notez/graphql'
 import { Box, Flex, Heading, Text } from 'flokit'
-import { Button, Container, Input, Label } from '../components'
+import { Button, Container, Emoji, Input, Label } from '../components'
 import { checkCurrentUser, redirect } from '../lib'
 
 const Login = () => {
@@ -78,7 +78,7 @@ const Login = () => {
 
           {error && !data && (
             <Text mt='3' color='red' fontSize='1.4rem' textAlign='center'>
-              Something wrong happened :(
+              Something wrong happened <Emoji symbol='😢' label='cry' />
             </Text>
           )}
         </Box>

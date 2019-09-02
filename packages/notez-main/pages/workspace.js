@@ -28,7 +28,6 @@ const Workspace = ({ currentUser }) => {
 
   if (loading) {
     return (
-      // Exibir um spinner mais bonitinho?
       <Text fontSize='14px' color='gray'>
         Loading...
       </Text>
