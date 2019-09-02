@@ -6,7 +6,7 @@ import { withApollo } from '../lib'
 import { SiteLayout } from '../layouts'
 import theme from '../theme'
 
-class MyApp extends App {
+class NotezApp extends App {
   render() {
     const { Component, pageProps, apolloClient } = this.props
     const { Layout = SiteLayout } = Component
@@ -25,4 +25,4 @@ class MyApp extends App {
   }
 }
 
-export default withApollo(MyApp)
+export default withApollo(NotezApp)
