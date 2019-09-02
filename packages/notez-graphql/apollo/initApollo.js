@@ -4,18 +4,13 @@ import { setContext } from 'apollo-link-context'
 import fetch from 'isomorphic-unfetch'
 import { environmentService } from '@notez/infra'
 
+const uri = process.env.API_URL
+
 if (environmentService.isServer()) {
   global.fetch = fetch
 }
 
-const options = {
-  uri: 'http://localhost:3000',
-}
-
-const initApollo = (
-  initialState = {},
-  { uri, getToken = () => '' } = options
-) => {
+const initApollo = (initialState = {}, getToken = () => '') => {
   const isServer = environmentService.isServer()
   const isBrowser = environmentService.isBrowser()
 

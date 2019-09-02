@@ -6,8 +6,6 @@ import { cookieService } from '@notez/infra'
 import { createClient } from '@notez/graphql'
 import getDisplayName from './getDisplayName'
 
-const uri = process.env.API_URL
-
 const withApollo = (App) => {
   class WithApollo extends Component {
     static displayName = `WithApollo(${getDisplayName(App)})`
@@ -29,9 +27,9 @@ const withApollo = (App) => {
 
       const cookies = req ? req.headers.cookie || '' : document.cookie
 
-      const getToken = () => cookieService.get('token', cookies)
-
-      const apollo = createClient(null, { uri, getToken })
+      const apollo = createClient(null, () =>
+        cookieService.get('token', cookies)
+      )
 
       ctx.ctx.apolloClient = apollo
 
@@ -80,10 +78,9 @@ const withApollo = (App) => {
 
     constructor(props) {
       super(props)
-      this.apolloClient = createClient(props.apolloState, {
-        uri,
-        getToken: () => cookieService.get('token'),
-      })
+      this.apolloClient = createClient(props.apolloState, () =>
+        cookieService.get('token')
+      )
     }
 
     render() {
