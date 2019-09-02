@@ -78,7 +78,7 @@ const Login = () => {
 
           {error && !data && (
             <Text mt='3' color='red' fontSize='1.4rem' textAlign='center'>
-              Something wrong happened <Emoji symbol='😢' label='cry' />
+              Something wrong happened <Emoji symbol='😢' />
             </Text>
           )}
         </Box>

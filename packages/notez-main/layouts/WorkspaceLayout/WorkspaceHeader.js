@@ -33,7 +33,7 @@ const WorkspaceHeader = ({ onOpenSidebar, onCloseSidebar }) => (
       <Flex as='nav' alignItems='center'>
         <To href='/workspace'>
           <Flex as={Link} alignItems='center' fontSize='14px' color='merlin'>
-            <Emoji symbol='⛰' label='car' mr='1' /> Get Started
+            <Emoji symbol='⛰' mr='1' /> Get Started
           </Flex>
         </To>
 
@@ -43,7 +43,7 @@ const WorkspaceHeader = ({ onOpenSidebar, onCloseSidebar }) => (
 
         <To href='/workspace'>
           <Flex as={Link} alignItems='center' fontSize='14px' color='merlin'>
-            <Emoji symbol='😄' label='car' mr='1' /> With Subpage
+            <Emoji symbol='😄' mr='1' /> With Subpage
           </Flex>
         </To> */}
       </Flex>

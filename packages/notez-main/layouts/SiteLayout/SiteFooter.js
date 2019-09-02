@@ -13,7 +13,7 @@ const SiteFooter = () => (
         <Text fontWeight='5'>Notez</Text>
 
         <Text fontSize='4' color='merlin'>
-          Made with <Emoji symbol='❤️' label='love' /> by{' '}
+          Made with <Emoji symbol='❤️' /> by{' '}
           <Link href='https://github.com/iagodahlem'>Iago Dahlem</Link> and{' '}
           <Link href='https://github.com/talyssonoc'>Talysson de Oliveira</Link>
           .

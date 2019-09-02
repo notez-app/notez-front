@@ -39,9 +39,8 @@ const Workspace = ({ currentUser }) => {
   return (
     <Flex as='section' flexDirection='column' width={1} height='100%'>
       <Box as='header' mt='5' mb='3'>
-        {page.icon && <Emoji symbol={page.icon} label='car' fontSize='10' />}
+        {page.icon && <Emoji symbol={page.icon} fontSize='10' />}
 
-        {/* Usar o component BLock como `type` Heading? */}
         <Heading as='div' fontSize='8' fontWeight='5'>
           <Editable>{page.name}</Editable>
         </Heading>

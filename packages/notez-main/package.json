@@ -16,6 +16,7 @@
     "apollo-boost": "^0.4.3",
     "apollo-client": "^2.6.3",
     "dotenv": "^8.0.0",
+    "emoji-dictionary": "^1.0.10",
     "flokit": "1.0.0-alpha.0",
     "graphql": "^14.4.2",
     "next": "^9.0.2",
