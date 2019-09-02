@@ -24,8 +24,6 @@ const DEFAULT_WORKSPACE = gql`
 `
 
 const Workspace = ({ currentUser }) => {
-  console.log({ currentUser })
-
   const { loading, error, data } = useQuery(DEFAULT_WORKSPACE)
 
   if (loading) {
