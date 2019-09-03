@@ -4,7 +4,7 @@ import { GlobalStyle, Container } from '../../components'
 import WorkspaceSidebar from './WorkspaceSidebar'
 import WorkspaceHeader from './WorkspaceHeader'
 
-const WorkspaceLayout = ({ children }) => {
+const WorkspaceLayout = ({ children, currentUser, logout }) => {
   const [isSidebarOpen, setSidebar] = useState(false)
 
   const onOpenSidebar = () => setSidebar(true)
@@ -16,6 +16,8 @@ const WorkspaceLayout = ({ children }) => {
       <GlobalStyle />
 
       <WorkspaceSidebar
+        email={currentUser.email}
+        logout={logout}
         isOpen={isSidebarOpen}
         onOpen={onOpenSidebar}
         onClose={onCloseSidebar}
