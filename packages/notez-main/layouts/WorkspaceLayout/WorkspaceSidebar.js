@@ -13,6 +13,11 @@ const Sidebar = styled(
   transform: translateX(-100%);
 `
 
+const Logout = styled(Flex)`
+  width: 100%;
+  cursor: pointer;
+`
+
 const WorkspaceSidebar = ({ email, logout, isOpen, onOpen, onClose }) => (
   <Box
     position='fixed'
@@ -77,7 +82,12 @@ const WorkspaceSidebar = ({ email, logout, isOpen, onOpen, onClose }) => (
       </Box>
 
       <Flex py='2' justifyContent='center' alignItems='center' mt='auto'>
-        <Flex alignItems='center' height='28px' onClick={logout}>
+        <Logout
+          justifyContent='center'
+          alignItems='center'
+          height='28px'
+          onClick={logout}
+        >
           <Text
             fontSize='12px'
             color='merlin'
@@ -86,7 +96,7 @@ const WorkspaceSidebar = ({ email, logout, isOpen, onOpen, onClose }) => (
           >
             Log Out ({email})
           </Text>
-        </Flex>
+        </Logout>
       </Flex>
     </Sidebar>
   </Box>
