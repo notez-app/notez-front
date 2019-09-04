@@ -1,70 +1,33 @@
-const GlobalStyle = () => (
-  <style global jsx>{`
-    :root {
-      --black: rgb(55, 53, 47);
-      --white: rgb(255, 255, 255);
-    }
-
-    html {
-      -webkit-tap-highlight-color: transparent;
-    }
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: inherit;
-    }
-    html {
-      font-size: 62.5%;
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica,
-        'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji',
-        'Segoe UI Symbol', sans-serif;
-      font-size: 1.6rem;
-      color: var(--black);
-      background-color: var(--white);
-    }
-    html,
-    body,
-    #__next {
-      height: 100%;
-    }
-  `}</style>
-)
+import { Box, Flex, Heading } from 'flokit'
+import { SiteLayout } from '../layouts'
+import { Container } from '../components'
+import { checkCurrentUser, redirect } from '../lib'
 
 const Home = () => (
-  <>
-    <GlobalStyle />
-
-    <main>
-      <section>
-        <h1>Notez</h1>
-
-        <p>(Comming soon!)</p>
-      </section>
-    </main>
-
-    <style jsx>{`
-      main {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-      }
-
-      section {
-        text-align: center;
-      }
-
-      h1 {
-        margin: 0;
-        font-size: 3.7rem;
-      }
-    `}</style>
-  </>
+  <SiteLayout>
+    <Box as='section' height='100%'>
+      <Container
+        as={Flex}
+        justifyContent='flex-start'
+        alignItems='center'
+        height='100%'
+      >
+        <Heading fontSize='10' width='406px'>
+          Open-source notes app
+        </Heading>
+      </Container>
+    </Box>
+  </SiteLayout>
 )
+
+Home.getInitialProps = async (ctx) => {
+  const { currentUser } = await checkCurrentUser(ctx.apolloClient)
+
+  if (currentUser) {
+    redirect(ctx, '/workspace')
+  }
+
+  return {}
+}
 
 export default Home

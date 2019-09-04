@@ -5,13 +5,16 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run start --stream",
-    "build": "lerna run build --stream",
-    "start": "lerna run start --stream",
+    "dev": "lerna run dev --scope @notez/main --stream",
+    "build": "lerna run build --scope @notez/main --stream",
+    "start": "lerna run start --scope @notez/main --stream",
+    "test": "lerna run test --stream",
     "format": "prettier --write packages/**/*.js"
   },
   "devDependencies": {
+    "babel-jest": "^24.9.0",
     "husky": "^3.0.1",
+    "jest": "^24.9.0",
     "lerna": "^3.16.4",
     "prettier": "1.18.2",
     "pretty-quick": "^1.11.1"

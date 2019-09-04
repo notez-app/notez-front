@@ -1,20 +1,22 @@
 import React from 'react'
-import App, { Container } from 'next/app'
-import { ApolloProvider } from 'react-apollo'
-import { withApolloClient } from '../graphql'
+import App from 'next/app'
+import { ApolloProvider } from '@apollo/react-hooks'
+import { ThemeProvider } from 'styled-components'
+import { withApollo } from '../lib'
+import theme from '../theme'
 
-class MyApp extends App {
+class NotezApp extends App {
   render() {
     const { Component, pageProps, apolloClient } = this.props
 
     return (
-      <Container>
-        <ApolloProvider client={apolloClient}>
+      <ApolloProvider client={apolloClient}>
+        <ThemeProvider theme={theme}>
           <Component {...pageProps} />
-        </ApolloProvider>
-      </Container>
+        </ThemeProvider>
+      </ApolloProvider>
     )
   }
 }
 
-export default withApolloClient(MyApp)
+export default withApollo(NotezApp)

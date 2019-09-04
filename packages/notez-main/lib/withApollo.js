@@ -1,27 +1,48 @@
-import React from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Head from 'next/head'
-import { getDataFromTree } from 'react-apollo'
-import { createApolloClient } from '@notez/graphql'
+import { getDataFromTree } from '@apollo/react-ssr'
+import { cookieService } from '@notez/infra'
+import { createClient } from '@notez/graphql'
+import getDisplayName from './getDisplayName'
 
-const options = {
-  uri: process.env.API_URL,
-}
+const withApollo = (App) => {
+  class WithApollo extends Component {
+    static displayName = `WithApollo(${getDisplayName(App)})`
 
-const withApolloClient = (App) => {
-  class Apollo extends React.Component {
-    static displayName = 'withApollo(App)'
+    static defaultProps = {
+      apolloState: {},
+    }
+
+    static propTypes = {
+      apolloState: PropTypes.object,
+    }
 
     static async getInitialProps(ctx) {
-      const { Component, router } = ctx
+      const {
+        Component,
+        router,
+        ctx: { req, res },
+      } = ctx
+
+      const cookies = req ? req.headers.cookie || '' : document.cookie
+
+      const apollo = createClient(null, () =>
+        cookieService.get('token', cookies)
+      )
+
+      ctx.ctx.apolloClient = apollo
 
       let appProps = {}
       if (App.getInitialProps) {
         appProps = await App.getInitialProps(ctx)
       }
 
-      // Run all GraphQL queries in the component tree
-      // and extract the resulting data
-      const apollo = createApolloClient(options)
+      if (res && res.finished) {
+        // When redirecting, the response is finished.
+        // No point in continuing to render
+        return {}
+      }
 
       if (typeof window === 'undefined') {
         try {
@@ -57,7 +78,9 @@ const withApolloClient = (App) => {
 
     constructor(props) {
       super(props)
-      this.apolloClient = createApolloClient(options, props.apolloState)
+      this.apolloClient = createClient(props.apolloState, () =>
+        cookieService.get('token')
+      )
     }
 
     render() {
@@ -65,7 +88,7 @@ const withApolloClient = (App) => {
     }
   }
 
-  return Apollo
+  return WithApollo
 }
 
-export default withApolloClient
+export default withApollo
