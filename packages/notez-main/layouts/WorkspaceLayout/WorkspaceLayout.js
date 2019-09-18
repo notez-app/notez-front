@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Box, Flex } from 'flokit'
-import { GlobalStyle, Container } from '../../components'
-import WorkspaceSidebar from './WorkspaceSidebar'
-import WorkspaceHeader from './WorkspaceHeader'
+import { GlobalStyle } from '../../components'
+import Sidebar from './Sidebar'
+import Header from './Header'
 
 const WorkspaceLayout = ({ children, currentUser, logout }) => {
   const [isSidebarOpen, setSidebar] = useState(false)
@@ -15,7 +15,7 @@ const WorkspaceLayout = ({ children, currentUser, logout }) => {
     <>
       <GlobalStyle />
 
-      <WorkspaceSidebar
+      <Sidebar
         email={currentUser.email}
         logout={logout}
         isOpen={isSidebarOpen}
@@ -24,10 +24,7 @@ const WorkspaceLayout = ({ children, currentUser, logout }) => {
       />
 
       <Flex flexDirection='column' height='100%' bg='white'>
-        <WorkspaceHeader
-          onOpenSidebar={onOpenSidebar}
-          onCloseSidebar={onCloseSidebar}
-        />
+        <Header onOpenSidebar={onOpenSidebar} onCloseSidebar={onCloseSidebar} />
 
         <Flex
           as='main'
