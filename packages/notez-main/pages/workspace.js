@@ -8,7 +8,7 @@ import { checkCurrentUser, redirect } from '../lib'
 
 const DEFAULT_WORKSPACE = gql`
   {
-    defaultWorkspace {
+    selectedWorkspace {
       name
       pages {
         icon
@@ -44,7 +44,7 @@ const Workspace = ({ currentUser }) => {
     })
   }
 
-  const page = data.defaultWorkspace.pages[0]
+  const page = data.selectedWorkspace.pages[0]
 
   return (
     <WorkspaceLayout currentUser={currentUser} logout={logout}>
