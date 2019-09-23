@@ -2,7 +2,7 @@ import { Box, Flex } from 'flokit'
 import Breadcrumb from './Breadcrumb'
 import Hamburguer from './Hamburguer'
 
-const Header = ({ onOpenSidebar, onCloseSidebar }) => (
+const Header = ({ pages, onOpenSidebar, onCloseSidebar }) => (
   <Box
     as='header'
     position='fixed'
@@ -15,7 +15,7 @@ const Header = ({ onOpenSidebar, onCloseSidebar }) => (
     <Flex justifyContent='flex-start' alignItems='center' height='100%' px='3'>
       <Hamburguer onMouseEnter={onOpenSidebar} onMouseLeave={onCloseSidebar} />
 
-      <Breadcrumb />
+      <Breadcrumb pages={pages} />
     </Flex>
   </Box>
 )

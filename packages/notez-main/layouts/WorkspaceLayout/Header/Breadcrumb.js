@@ -22,17 +22,17 @@ const BreadcrumbDivider = () => (
   </Text>
 )
 
-const Breadcrumb = () => (
+const Breadcrumb = ({ pages }) => (
   <Flex as='nav' alignItems='center'>
-    <BreadcrumbItem href='/workspace'>
-      <Emoji symbol='⛰' mr='1' /> Get Started
-    </BreadcrumbItem>
+    {pages.map((page, index) => (
+      <>
+        {index > 0 && <BreadcrumbDivider />}
 
-    <BreadcrumbDivider />
-
-    <BreadcrumbItem href='/workspace'>
-      <Emoji symbol='😄' mr='1' /> With Subpage
-    </BreadcrumbItem>
+        <BreadcrumbItem>
+          <Emoji symbol={page.icon} mr='1' /> {page.name}
+        </BreadcrumbItem>
+      </>
+    ))}
   </Flex>
 )
 

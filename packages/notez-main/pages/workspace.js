@@ -27,14 +27,7 @@ const DEFAULT_WORKSPACE = gql`
 const Workspace = ({ currentUser }) => {
   const client = useApolloClient()
   const { loading, error, data } = useQuery(DEFAULT_WORKSPACE)
-
-  if (loading) {
-    return (
-      <Text fontSize='14px' color='gray'>
-        Loading...
-      </Text>
-    )
-  }
+  const { selectedWorkspace } = data
 
   const logout = () => {
     cookieService.set('token', '', { maxAge: -1 })
@@ -44,10 +37,22 @@ const Workspace = ({ currentUser }) => {
     })
   }
 
-  const page = data.selectedWorkspace.pages[0]
+  if (loading) {
+    return (
+      <Text fontSize='14px' color='gray'>
+        Loading...
+      </Text>
+    )
+  }
+
+  const page = selectedWorkspace.pages[0]
 
   return (
-    <WorkspaceLayout currentUser={currentUser} logout={logout}>
+    <WorkspaceLayout
+      currentUser={currentUser}
+      selectedWorkspace={selectedWorkspace}
+      logout={logout}
+    >
       <Flex as='section' flexDirection='column' width={1} height='100%'>
         <Box as='header' mt='5' mb='3'>
           {page.icon && <Emoji symbol={page.icon} fontSize='10' />}
@@ -79,8 +84,6 @@ Workspace.getInitialProps = async (ctx) => {
   const { currentUser } = await checkCurrentUser(ctx.apolloClient)
 
   if (!currentUser) {
-    // Mandar pra alguma pagina mais util que a home?
-    // Talvez alguma pagina especifica pra unificar login e signup como o Notion faz?
     redirect(ctx, '/')
   }
 

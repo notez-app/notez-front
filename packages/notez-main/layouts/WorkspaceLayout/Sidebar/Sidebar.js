@@ -36,7 +36,14 @@ const SidebarFooter = (props) => (
   />
 )
 
-const Sidebar = ({ email, logout, isOpen, onOpen, onClose }) => (
+const Sidebar = ({
+  currentUser,
+  selectedWorkspace,
+  logout,
+  isOpen,
+  onOpen,
+  onClose,
+}) => (
   <HoverArea onMouseEnter={onOpen} onMouseLeave={onClose}>
     <PosedSidebar
       pose={isOpen ? 'open' : 'closed'}
@@ -53,15 +60,7 @@ const Sidebar = ({ email, logout, isOpen, onOpen, onClose }) => (
         <Avatar />
 
         <Text ml='12px' fontSize='14px'>
-          Current Workspace
-        </Text>
-      </SidebarItem>
-
-      <SidebarItem>
-        <Avatar />
-
-        <Text ml='12px' fontSize='14px'>
-          Create or Join Workspace
+          {selectedWorkspace.name}
         </Text>
       </SidebarItem>
 
@@ -75,7 +74,7 @@ const Sidebar = ({ email, logout, isOpen, onOpen, onClose }) => (
           onClick={logout}
         >
           <Text fontSize='4' color='merlin' opacity='.6' verticalAlign='center'>
-            Log Out ({email})
+            Log Out ({currentUser.email})
           </Text>
         </Button>
       </SidebarFooter>
