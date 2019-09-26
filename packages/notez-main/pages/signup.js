@@ -5,7 +5,7 @@ import { cookieService } from '@notez/infra'
 import { CREATE_USER } from '@notez/graphql'
 import { Box, Flex, Heading, Text } from 'flokit'
 import { SiteLayout } from '../layouts'
-import { Button, Container, Input, Label } from '../components'
+import { Button, Container, Emoji, Input, Label } from '../components'
 import { checkCurrentUser, redirect } from '../lib'
 
 const SignUp = () => {
@@ -55,11 +55,19 @@ const SignUp = () => {
           <Heading fontSize='9'>Sign Up</Heading>
 
           <Box as='form' width='310px' mt='4' onSubmit={onSubmit}>
-            <Label>Name</Label>
+            <Label>First Name</Label>
             <Input
-              name='name'
-              placeholder='Foo Bar'
-              value={user.name}
+              name='firstName'
+              placeholder='Jane'
+              value={user.firstName}
+              onChange={onChange}
+            />
+
+            <Label>Last Name</Label>
+            <Input
+              name='lastName'
+              placeholder='Doe'
+              value={user.lastName}
               onChange={onChange}
             />
 

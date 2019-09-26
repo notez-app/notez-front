@@ -1,5 +1,6 @@
-export const create = ({ name = '', email = '' } = {}) => ({
-  name,
+export const create = ({ firstName = '', lastName = '', email = '' } = {}) => ({
+  firstName,
+  lastName,
   email,
   password: '',
 })
