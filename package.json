@@ -12,7 +12,6 @@
     "format": "prettier --write packages/**/*.js"
   },
   "devDependencies": {
-    "babel-jest": "^24.9.0",
     "husky": "^3.0.1",
     "jest": "^24.9.0",
     "lerna": "^3.16.4",
