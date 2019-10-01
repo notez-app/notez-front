@@ -4,7 +4,12 @@ import { GlobalStyle } from '../../components'
 import Sidebar from './Sidebar'
 import Header from './Header'
 
-const WorkspaceLayout = ({ children, currentUser, logout }) => {
+const WorkspaceLayout = ({
+  children,
+  currentUser,
+  selectedWorkspace,
+  logout,
+}) => {
   const [isSidebarOpen, setSidebar] = useState(false)
 
   const onOpenSidebar = () => setSidebar(true)
@@ -16,7 +21,8 @@ const WorkspaceLayout = ({ children, currentUser, logout }) => {
       <GlobalStyle />
 
       <Sidebar
-        email={currentUser.email}
+        currentUser={currentUser}
+        selectedWorkspace={selectedWorkspace}
         logout={logout}
         isOpen={isSidebarOpen}
         onOpen={onOpenSidebar}
@@ -24,7 +30,11 @@ const WorkspaceLayout = ({ children, currentUser, logout }) => {
       />
 
       <Flex flexDirection='column' height='100%' bg='white'>
-        <Header onOpenSidebar={onOpenSidebar} onCloseSidebar={onCloseSidebar} />
+        <Header
+          pages={selectedWorkspace.pages}
+          onOpenSidebar={onOpenSidebar}
+          onCloseSidebar={onCloseSidebar}
+        />
 
         <Flex
           as='main'
