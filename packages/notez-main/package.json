@@ -19,7 +19,7 @@
     "emoji-dictionary": "^1.0.10",
     "flokit": "1.0.0-alpha.0",
     "graphql": "^14.4.2",
-    "next": "^9.0.2",
+    "next": "^11.1.0",
     "next-compose-plugins": "^2.2.0",
     "next-transpile-modules": "^2.3.1",
     "react": "^16.8.6",
